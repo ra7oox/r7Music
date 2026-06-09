@@ -22,15 +22,12 @@ export const Layout = () => {
       {/* Main content */}
       <main
         key={location.pathname}
-        className="slide-up"
+        className="scroll-col slide-up"
         style={{
           gridColumn: 'auto',
           gridRow: 1,
           minWidth: 0,
-          /* Mobile: player bar (60px) + bottom nav (58px) = 118px */
-          /* Desktop: player bar only (~72px) */
           paddingBottom: currentTrack ? 'clamp(118px, 15vh, 140px)' : '80px',
-          overflowX: 'hidden',
         }}
       >
         <Outlet />

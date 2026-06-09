@@ -72,7 +72,7 @@ export const NowPlayingPanel = () => {
     <>
       {/* ── Desktop side panel ── */}
       <div
-        className="hidden md:flex slide-left"
+        className="hidden md:flex slide-left scroll-col"
         style={{
           gridColumn: 3,
           gridRow: 1,
@@ -83,7 +83,6 @@ export const NowPlayingPanel = () => {
           alignItems: 'center',
           padding: '28px 22px',
           paddingBottom: '96px',
-          overflowY: 'auto',
           position: 'relative',
           backdropFilter: 'blur(30px)',
         }}

@@ -126,11 +126,27 @@ body { min-height: 100vh; overflow-x: hidden; background: var(--color-bg-base); 
 .layout-grid {
   display: grid;
   grid-template-columns: 232px 1fr auto;
-  min-height: 100vh;
+  grid-template-rows: 1fr;
+  height: 100vh;
+  overflow: hidden;
 }
 @media (max-width: 768px) {
-  .layout-grid { grid-template-columns: 1fr; }
+  .layout-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
 }
+
+/* ─── Scrollable columns ─────────────────────────────────────────────────── */
+.scroll-col {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+.scroll-col::-webkit-scrollbar { width: 6px; }
+.scroll-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+.scroll-col::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+.scroll-col:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
 
 /* ─── Sidebar ────────────────────────────────────────────────────────────── */
 .nav-link {
