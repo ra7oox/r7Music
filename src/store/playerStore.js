@@ -6,6 +6,66 @@ audio.preload = 'auto'
 let loadTimeout = null
 let playingTrackId = null
 
+// ── Media Session helpers ────────────────────────────────────────────────────
+// Music note SVG used as notification artwork (avoids showing the app logo)
+const MUSIC_NOTE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#1a1a2e"/>
+  <defs>
+    <linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A8FE8"/>
+      <stop offset="50%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#C8389A"/>
+    </linearGradient>
+  </defs>
+  <!-- note head 1 -->
+  <ellipse cx="160" cy="360" rx="70" ry="50" fill="url(#ng)"/>
+  <!-- note head 2 -->
+  <ellipse cx="352" cy="310" rx="70" ry="50" fill="url(#ng)"/>
+  <!-- stems -->
+  <rect x="218" y="140" width="26" height="230" rx="13" fill="url(#ng)"/>
+  <rect x="410" y="90" width="26" height="228" rx="13" fill="url(#ng)"/>
+  <!-- beam -->
+  <path d="M218 140 L436 90 L436 130 L218 184 Z" fill="url(#ng)"/>
+</svg>`
+
+const MUSIC_NOTE_URL = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(MUSIC_NOTE_SVG)}`
+
+const MS_ARTWORK = [
+  { src: MUSIC_NOTE_URL, sizes: '512x512', type: 'image/svg+xml' },
+]
+
+function updateMediaSession(track, isPlaying) {
+  if (!('mediaSession' in navigator)) return
+  if (track) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.name || 'Unknown',
+      artist: track.artist_name || '',
+      album: track.album_name || '',
+      artwork: MS_ARTWORK,   // ← always the music note, never the app icon
+    })
+  }
+  navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused'
+}
+
+function registerMediaSessionHandlers() {
+  if (!('mediaSession' in navigator)) return
+  navigator.mediaSession.setActionHandler('play', () => usePlayerStore.getState().play())
+  navigator.mediaSession.setActionHandler('pause', () => usePlayerStore.getState().pause())
+  navigator.mediaSession.setActionHandler('previoustrack', () => usePlayerStore.getState().prev())
+  navigator.mediaSession.setActionHandler('nexttrack', () => usePlayerStore.getState().next())
+  navigator.mediaSession.setActionHandler('stop', () => usePlayerStore.getState().pause())
+  navigator.mediaSession.setActionHandler('seekto', (details) => {
+    if (details.seekTime !== undefined) {
+      const { duration } = usePlayerStore.getState()
+      const ratio = duration > 0 ? details.seekTime / duration : 0
+      usePlayerStore.getState().seekTo(ratio)
+    }
+  })
+}
+
+registerMediaSessionHandlers()
+// ─────────────────────────────────────────────────────────────────────────────
+
 audio.addEventListener('ended', () => {
   const state = usePlayerStore.getState()
   if (!playingTrackId) return
@@ -103,8 +163,10 @@ export const usePlayerStore = create((set, get) => ({
       loadTimeout = null
       const dur = audio.duration || 0
       set({ isLoading: false, duration: dur })
+      updateMediaSession(track, false)
       audio.play().then(() => {
         set({ isPlaying: true })
+        updateMediaSession(track, true)
         get()._startProgress()
       }).catch(() => {
         set({ isPlaying: false })
@@ -133,6 +195,7 @@ export const usePlayerStore = create((set, get) => ({
     playingTrackId = currentTrack.id
     audio.play().then(() => {
       set({ isPlaying: true })
+      updateMediaSession(currentTrack, true)
       get()._startProgress()
     }).catch(() => {})
   },
@@ -140,6 +203,7 @@ export const usePlayerStore = create((set, get) => ({
   pause: () => {
     audio.pause()
     set({ isPlaying: false })
+    updateMediaSession(get().currentTrack, false)
     get()._stopProgress()
   },
 

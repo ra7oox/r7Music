@@ -1,7 +1,8 @@
 import { NavLink } from 'react-router-dom'
 import {
-  Home, Search, Heart, Music2, Disc3, Users, Radio,
+  Home, Search, Heart, Music2, Disc3, Users,
 } from 'lucide-react'
+import { R7MusicLogo } from '@/components/ui/R7MusicLogo'
 
 const NAV = [
   { to: '/',         icon: Home,    label: 'Discover'   },
@@ -34,29 +35,19 @@ export const Sidebar = () => (
     aria-label="Main navigation"
   >
     {/* Logo */}
-    <div className="flex items-center gap-3 mb-8 px-2">
-      <div
-        className="flex items-center justify-center"
-        style={{
-          width: 36, height: 36, borderRadius: 10,
-          background: 'linear-gradient(135deg, var(--color-accent-from), var(--color-play))',
-          boxShadow: '0 0 20px rgba(34,197,94,0.3)',
-        }}
-        aria-hidden="true"
-      >
-        <Radio size={18} color="white" />
-      </div>
+    <div className="flex items-center gap-2 mb-8 px-1">
+      <R7MusicLogo size={44} />
       <span
         className="font-bold text-lg tracking-tight"
         style={{
           fontFamily: 'var(--font-display)',
-          background: 'linear-gradient(135deg, #f0f0ff, var(--color-play))',
+          background: 'linear-gradient(135deg, #4A8FE8, #A855F7, #C8389A)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
         }}
       >
-        R7Music
+        r7Music
       </span>
     </div>
 
