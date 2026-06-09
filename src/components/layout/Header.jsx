@@ -7,7 +7,7 @@ export const Header = ({ title = '' }) => {
 
   return (
     <header
-      className="flex items-center gap-4 px-6 py-4"
+      className="flex items-center gap-4 px-4 md:px-6 py-4"
       style={{
         background: 'rgba(8,8,15,0.7)',
         backdropFilter: 'blur(20px)',

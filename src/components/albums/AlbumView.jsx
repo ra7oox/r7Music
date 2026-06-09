@@ -85,7 +85,7 @@ export const AlbumGrid = ({ albums, isLoading, emptyMessage = 'No albums found' 
   return (
     <div
       className="grid gap-4"
-      style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}
+      className="grid-albums"
     >
       {albums.map((album) => (
         <AlbumCard key={album.id} album={album} />

@@ -64,7 +64,7 @@ export const ArtistGrid = ({ artists, isLoading, emptyMessage = 'No artists foun
   return (
     <div
       className="grid gap-4"
-      style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}
+      className="grid-artists"
     >
       {artists.map((artist) => (
         <ArtistCard key={artist.id} artist={artist} />

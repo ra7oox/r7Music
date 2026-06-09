@@ -9,7 +9,7 @@ export const FavoritesPage = () => {
   return (
     <>
       <Header title="Favorites" />
-      <div className="px-6 py-4">
+      <div className="px-4 md:px-6 py-4">
         <div className="flex items-center gap-2 mb-6">
           <Heart size={20} style={{ color: '#d946ef' }} fill="#d946ef" />
           <h2 className="text-lg font-bold">Your Favorites</h2>

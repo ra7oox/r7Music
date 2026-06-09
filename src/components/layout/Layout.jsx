@@ -1,5 +1,6 @@
 import { useLocation, Outlet } from 'react-router-dom'
 import { Sidebar } from './Sidebar'
+import { MobileNav } from './MobileNav'
 import { PlayerBar } from '@/components/player/PlayerBar'
 import { NowPlayingPanel } from '@/components/player/NowPlayingPanel'
 import { usePlayerStore } from '@/store/playerStore'
@@ -30,7 +31,7 @@ export const Layout = () => {
           gridColumn: 'md:2',
           gridRow: 1,
           minWidth: 0,
-          paddingBottom: '96px',
+          paddingBottom: currentTrack ? '120px' : '72px',
           overflowX: 'hidden',
         }}
       >
@@ -42,6 +43,9 @@ export const Layout = () => {
 
       {/* Sticky player bar */}
       <PlayerBar />
+
+      {/* Mobile bottom nav — only when no track is playing */}
+      <MobileNav />
     </div>
   )
 }

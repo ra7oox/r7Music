@@ -36,10 +36,39 @@ export const PlayerBar = () => {
       aria-label="Music player"
       style={{ background: 'rgba(12, 12, 26, 0.92)' }}
     >
-      <div className="flex items-center gap-3 px-3 py-2.5 max-w-screen-2xl mx-auto md:gap-4 md:px-4">
+      {/* Mobile: compact single row */}
+      <div className="md:hidden flex items-center gap-2 px-2 py-1.5">
+        <button
+          className="flex items-center gap-2 min-w-0 flex-1 text-left"
+          onClick={toggleNowPlaying}
+          aria-label="Show now playing"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+        >
+          <img src={currentTrack.album_image || ''} alt="" className="rounded-lg" style={{ width: 36, height: 36, objectFit: 'cover' }} />
+          <div className="min-w-0">
+            <p className="text-xs font-medium truncate leading-tight" style={{ color: 'var(--color-text-primary)' }}>{currentTrack.name}</p>
+            <p className="text-[10px] truncate leading-tight mt-0.5" style={{ color: 'var(--color-text-muted)' }}>{currentTrack.artist_name}</p>
+          </div>
+        </button>
+        <button className="btn-icon" aria-label="Previous track" onClick={prev}><SkipBack size={15} /></button>
+        <button className="btn-play" aria-label={isPlaying ? 'Pause' : 'Play'} onClick={togglePlay} disabled={isLoading}
+          style={{ width: 38, height: 38, boxShadow: isPlaying ? '0 0 16px rgba(34,197,94,0.5)' : undefined }}>
+          {isLoading ? (
+            <div className="flex items-end gap-0.5" style={{ height: 12 }}>
+              <div className="equalizer-bar" style={{ height: 5 }} />
+              <div className="equalizer-bar" style={{ height: 9 }} />
+              <div className="equalizer-bar" style={{ height: 4 }} />
+            </div>
+          ) : isPlaying ? <Pause size={15} fill="white" /> : <Play size={15} fill="white" style={{ marginLeft: 1.5 }} />}
+        </button>
+        <button className="btn-icon" aria-label="Next track" onClick={next}><SkipForward size={15} /></button>
+      </div>
+
+      {/* Desktop: full layout */}
+      <div className="hidden md:flex items-center gap-3 px-3 py-2.5 max-w-screen-2xl mx-auto md:gap-4 md:px-4">
         {/* Track info */}
         <button
-          className="flex items-center gap-2.5 min-w-0 flex-shrink-0 md:w-[200px] w-[140px] text-left"
+          className="flex items-center gap-2.5 min-w-0 flex-shrink-0 w-[200px] text-left"
           onClick={toggleNowPlaying}
           aria-label="Show now playing"
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}

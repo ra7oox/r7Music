@@ -48,7 +48,7 @@ export const ArtistDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="px-6 py-4">
+      <div className="px-4 md:px-6 py-4">
         <TrackListSkeleton count={10} />
       </div>
     )
@@ -59,7 +59,7 @@ export const ArtistDetailPage = () => {
   return (
     <>
       <Header title={artist?.name || lastfm?.name || 'Artist'} />
-      <div className="px-6 py-4">
+      <div className="px-4 md:px-6 py-4">
         <button
           className="btn-icon mb-4"
           aria-label="Go back"

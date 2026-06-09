@@ -35,7 +35,7 @@ export const DiscoverPage = () => {
   return (
     <>
       <Header title="Discover" />
-      <div className="px-6 py-4 space-y-8">
+      <div className="px-4 md:px-6 py-4 space-y-8">
         {/* Trending Tracks */}
         <section>
           <div className="flex items-center gap-2 mb-4">

@@ -29,7 +29,7 @@ export const AlbumDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="px-6 py-4">
+      <div className="px-4 md:px-6 py-4">
         <TrackListSkeleton count={10} />
       </div>
     )
@@ -38,7 +38,7 @@ export const AlbumDetailPage = () => {
   return (
     <>
       <Header title={album?.name || 'Album'} />
-      <div className="px-6 py-4">
+      <div className="px-4 md:px-6 py-4">
         <button
           className="btn-icon mb-4"
           aria-label="Go back"

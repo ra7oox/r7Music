@@ -19,7 +19,7 @@ export const SearchPage = () => {
   ]
 
   return (
-    <div className="px-6 py-4">
+    <div className="px-4 md:px-6 py-4">
       <div className="max-w-2xl mx-auto mb-6">
         <h1 className="text-2xl font-bold gradient-text mb-4">Search</h1>
         <SearchBar
