@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+const basename = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import { Layout } from '@/components/layout/Layout'
@@ -26,7 +28,7 @@ function App() {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<DiscoverPage />} />
