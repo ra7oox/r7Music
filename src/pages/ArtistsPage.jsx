@@ -41,12 +41,12 @@ export const ArtistsPage = () => {
   return (
     <>
       <Header title="Artists" />
-      <div className="px-4 md:px-6 py-4 space-y-8">
+      <div className="px-4 md:px-6 py-5 space-y-8 fade-in">
         {jamendoArtists.length > 0 && (
           <section>
-            <div className="flex items-center gap-2 mb-4">
-              <Users size={20} style={{ color: 'var(--color-accent-mid)' }} />
-              <h2 className="text-lg font-bold">Jamendo Artists</h2>
+            <div className="flex items-center gap-3 mb-5">
+              <Users size={24} style={{ color: 'var(--color-accent-mid)' }} />
+              <h2 className="section-heading" style={{ marginBottom: 0 }}>Jamendo Artists</h2>
             </div>
             <ArtistGrid
               artists={jamendoArtists}
@@ -57,9 +57,9 @@ export const ArtistsPage = () => {
 
         {lastfmArtists && lastfmArtists.length > 0 && (
           <section>
-            <div className="flex items-center gap-2 mb-4">
-              <Radio size={20} style={{ color: 'var(--color-accent-mid)' }} />
-              <h2 className="text-lg font-bold">Popular — Last.fm</h2>
+            <div className="flex items-center gap-3 mb-5">
+              <Radio size={24} style={{ color: 'var(--color-accent-mid)' }} />
+              <h2 className="section-heading" style={{ marginBottom: 0 }}>Popular — Last.fm</h2>
             </div>
             <ArtistGrid
               artists={lastfmArtists}

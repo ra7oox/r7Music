@@ -16,10 +16,10 @@ export const AlbumsPage = () => {
   return (
     <>
       <Header title="Albums" />
-      <div className="px-4 md:px-6 py-4">
-        <div className="flex items-center gap-2 mb-4">
-          <Disc3 size={20} style={{ color: 'var(--color-accent-mid)' }} />
-          <h2 className="text-lg font-bold">Browse Albums</h2>
+      <div className="px-4 md:px-6 py-5 fade-in">
+        <div className="flex items-center gap-3 mb-6">
+          <Disc3 size={24} style={{ color: 'var(--color-accent-mid)' }} />
+          <h2 className="section-heading" style={{ marginBottom: 0 }}>Albums</h2>
         </div>
         <AlbumGrid albums={albums} isLoading={isLoading} />
       </div>

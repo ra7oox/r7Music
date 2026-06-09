@@ -11,125 +11,127 @@ const formatDuration = (s) => {
   return `${m}:${sec.toString().padStart(2, '0')}`
 }
 
-export const TrackCard = ({ track, queueTracks }) => {
-  const { currentTrack, isPlaying, playTrack, togglePlay } = usePlayer()
+export const TrackCard = ({ track, queueTracks, index }) => {
+  const { currentTrack, isPlaying, isLoading, playTrack, togglePlay } = usePlayer()
   const { isFavorite, toggleFavorite } = useFavorites()
   const [imgError, setImgError] = useState(false)
 
   const isActive = currentTrack?.id === track.id
   const favorite = isFavorite(track.id)
+  const coverSrc = !imgError && track.album_image ? track.album_image : null
 
   const handlePlay = (e) => {
     e.stopPropagation()
-    if (isActive) {
-      togglePlay()
-    } else {
-      playTrack(track, queueTracks)
-    }
+    isActive ? togglePlay() : playTrack(track, queueTracks)
   }
-
-  const coverSrc = !imgError && track.album_image
-    ? track.album_image
-    : null
 
   return (
     <div
-      className={`track-row group flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all duration-200 ${isActive ? 'track-row-active' : 'hover:bg-white/[0.03]'}`}
+      className={`track-row group ${isActive ? 'track-row-active' : ''}`}
       onClick={handlePlay}
       role="row"
       aria-label={`${track.name} by ${track.artist_name}`}
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && handlePlay(e)}
     >
-      {/* Track number / cover */}
-      <div
-        className="relative flex-shrink-0 flex items-center justify-center"
-        style={{ width: 44, height: 44 }}
-      >
+      {/* Index / Play button */}
+      <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 20 }}>
+        {isActive && isPlaying ? (
+          <div className="flex items-end gap-[2px]" style={{ height: 14, width: 16 }}>
+            <div className="equalizer-bar" style={{ height: 6 }} />
+            <div className="equalizer-bar" style={{ height: 11 }} />
+            <div className="equalizer-bar" style={{ height: 7 }} />
+            <div className="equalizer-bar" style={{ height: 10 }} />
+          </div>
+        ) : (
+          <>
+            {typeof index === 'number' && (
+              <span
+                className="track-number group-hover:hidden"
+                style={{ color: isActive ? 'var(--color-accent-mid)' : 'var(--color-text-muted)' }}
+              >
+                {index + 1}
+              </span>
+            )}
+            <button
+              className="hidden group-hover:flex items-center justify-center btn-icon"
+              style={{ width: 20, height: 20, color: 'var(--color-text-primary)' }}
+              aria-label={isActive ? 'Pause' : 'Play'}
+              tabIndex={-1}
+            >
+              {isActive ? <Pause size={14} fill="currentColor" /> : <Play size={14} fill="currentColor" />}
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Cover */}
+      <div className="relative flex-shrink-0" style={{ width: 44, height: 44 }}>
         {coverSrc ? (
           <img
             src={coverSrc}
-            alt={`${track.album_name} cover`}
-            className="rounded-lg object-cover transition-transform duration-200 group-hover:scale-105"
-            style={{ width: 44, height: 44 }}
+            alt=""
+            className="rounded-lg"
+            style={{ width: 44, height: 44, objectFit: 'cover', display: 'block' }}
             onError={() => setImgError(true)}
           />
         ) : (
           <div
-            className="flex items-center justify-center rounded-lg"
-            style={{
-              width: 44, height: 44,
-              background: 'linear-gradient(135deg, rgba(67,56,202,0.3), rgba(99,102,241,0.2))',
-            }}
+            className="rounded-lg flex items-center justify-center"
+            style={{ width: 44, height: 44, background: 'var(--color-bg-card-hover)' }}
           >
             <Music size={18} style={{ color: 'var(--color-text-muted)' }} />
           </div>
         )}
-
-        {/* Play overlay on hover */}
-        <div
-          className="absolute inset-0 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 active:scale-95"
-          style={{ background: 'rgba(0,0,0,0.55)' }}
-        >
-          {isActive && isPlaying ? (
-            <Pause size={16} color="white" />
-          ) : (
-            <Play size={16} color="white" fill="white" />
-          )}
-        </div>
-
-        {/* Equalizer when active */}
-        {isActive && isPlaying && (
-          <div
-            className="absolute inset-0 flex items-center justify-center rounded-lg"
-            style={{ background: 'rgba(0,0,0,0.4)' }}
-            aria-hidden="true"
-          >
-            <div className="flex items-end gap-[3px]" style={{ height: 14 }}>
-              <div className="equalizer-bar" style={{ height: 8 }} />
-              <div className="equalizer-bar" style={{ height: 12 }} />
-              <div className="equalizer-bar" style={{ height: 6 }} />
-              <div className="equalizer-bar" style={{ height: 10 }} />
-            </div>
-          </div>
-        )}
       </div>
 
-      {/* Track info */}
+      {/* Title + Artist */}
       <div className="flex-1 min-w-0">
         <p
-          className="text-sm font-medium truncate leading-tight"
-          style={{ color: isActive ? 'var(--color-play)' : 'var(--color-text-primary)' }}
+          className="truncate leading-tight"
+          style={{
+            fontSize: '0.9375rem',
+            color: isActive ? 'var(--color-accent-mid)' : 'var(--color-text-primary)',
+            fontWeight: isActive ? 600 : 400,
+          }}
         >
           {track.name}
         </p>
-        <p className="text-xs truncate mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
+        <p className="truncate mt-0.5" style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)' }}>
           {track.artist_name}
-          {track.album_name && ` · ${track.album_name}`}
+        </p>
+      </div>
+
+      {/* Album name (desktop only) */}
+      <div className="hidden lg:block min-w-0 flex-shrink-0" style={{ width: 160 }}>
+        <p className="text-sm truncate" style={{ color: 'var(--color-text-secondary)' }}>
+          {track.album_name || ''}
         </p>
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      <div className="flex items-center gap-0.5 flex-shrink-0">
         <button
           className="btn-icon"
           aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
           onClick={(e) => { e.stopPropagation(); toggleFavorite(track) }}
-          style={{ minWidth: 36, minHeight: 36 }}
+          style={{
+            width: 32, height: 32,
+            opacity: favorite ? 1 : undefined,
+            color: favorite ? 'var(--color-accent-to)' : undefined,
+          }}
         >
-          <Heart
-            size={14}
-            fill={favorite ? '#22c55e' : 'none'}
-            stroke={favorite ? '#22c55e' : 'currentColor'}
-          />
+          <Heart size={15} fill={favorite ? 'currentColor' : 'none'} strokeWidth={1.8} />
         </button>
-        <DownloadButton track={track} />
+        <div className="hidden sm:block opacity-0 group-hover:opacity-100 transition-opacity">
+          <DownloadButton track={track} />
+        </div>
       </div>
 
       {/* Duration */}
       <span
-        className="text-xs tabular-nums flex-shrink-0"
-        style={{ color: 'var(--color-text-muted)', minWidth: 32, textAlign: 'right' }}
+        className="tabular-nums flex-shrink-0"
+        style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', minWidth: 40, textAlign: 'right' }}
       >
         {formatDuration(track.duration)}
       </span>

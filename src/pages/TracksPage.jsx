@@ -16,11 +16,11 @@ export const TracksPage = () => {
 
   return (
     <>
-      <Header title="All Tracks" />
-      <div className="px-4 md:px-6 py-4">
-        <div className="flex items-center gap-2 mb-4">
-          <Music2 size={20} style={{ color: 'var(--color-accent-mid)' }} />
-          <h2 className="text-lg font-bold">Browse Tracks</h2>
+      <Header title="Tracks" />
+      <div className="px-4 md:px-6 py-5 fade-in">
+        <div className="flex items-center gap-3 mb-6">
+          <Music2 size={24} style={{ color: 'var(--color-accent-mid)' }} />
+          <h2 className="section-heading" style={{ marginBottom: 0 }}>All Tracks</h2>
         </div>
         <TrackList
           tracks={tracks}

@@ -48,7 +48,7 @@ export const ArtistDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="px-4 md:px-6 py-4">
+      <div className="px-4 md:px-6 py-5 fade-in">
         <TrackListSkeleton count={10} />
       </div>
     )
@@ -59,7 +59,7 @@ export const ArtistDetailPage = () => {
   return (
     <>
       <Header title={artist?.name || lastfm?.name || 'Artist'} />
-      <div className="px-4 md:px-6 py-4">
+      <div className="px-4 md:px-6 py-5 fade-in">
         <button
           className="btn-icon mb-4"
           aria-label="Go back"
@@ -146,8 +146,8 @@ export const ArtistDetailPage = () => {
 
         {/* Bio */}
         {lastfm?.summary && (
-          <section className="mb-8">
-            <h2 className="text-lg font-bold mb-3">About</h2>
+          <section className="mb-10">
+            <h2 className="section-heading">About</h2>
             <p
               className="text-sm leading-relaxed max-w-2xl"
               style={{ color: 'var(--color-text-secondary)' }}
@@ -158,10 +158,10 @@ export const ArtistDetailPage = () => {
         )}
 
         {/* Tracks */}
-        <section className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Music size={18} style={{ color: 'var(--color-accent-mid)' }} />
-            <h2 className="text-lg font-bold">Tracks</h2>
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-5">
+            <Music size={20} style={{ color: 'var(--color-accent-mid)' }} />
+            <h2 className="section-heading" style={{ marginBottom: 0 }}>Tracks</h2>
           </div>
           {tracks.length > 0 ? (
             <TrackList tracks={tracks} queueTracks={tracks} />
@@ -194,10 +194,10 @@ export const ArtistDetailPage = () => {
 
         {/* Albums */}
         {artistAlbums.length > 0 && (
-          <section className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <Disc3 size={18} style={{ color: 'var(--color-accent-mid)' }} />
-              <h2 className="text-lg font-bold">Albums</h2>
+          <section className="mb-10">
+            <div className="flex items-center gap-3 mb-5">
+              <Disc3 size={20} style={{ color: 'var(--color-accent-mid)' }} />
+              <h2 className="section-heading" style={{ marginBottom: 0 }}>Albums</h2>
             </div>
             <AlbumGrid albums={artistAlbums} isLoading={albumsLoading} />
           </section>
@@ -205,10 +205,10 @@ export const ArtistDetailPage = () => {
 
         {/* Similar artists */}
         {lastfm?.similar && lastfm.similar.length > 0 && (
-          <section className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <Users size={18} style={{ color: 'var(--color-accent-mid)' }} />
-              <h2 className="text-lg font-bold">Similar Artists</h2>
+          <section className="mb-10">
+            <div className="flex items-center gap-3 mb-5">
+              <Users size={20} style={{ color: 'var(--color-accent-mid)' }} />
+              <h2 className="section-heading" style={{ marginBottom: 0 }}>Similar Artists</h2>
             </div>
             <ArtistGrid artists={lastfm.similar} isLoading={false} />
           </section>

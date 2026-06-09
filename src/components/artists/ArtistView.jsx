@@ -1,15 +1,17 @@
 import { useNavigate } from 'react-router-dom'
-import { Users } from 'lucide-react'
+import { Play } from 'lucide-react'
 import { CardGridSkeleton } from '@/components/ui/Skeleton'
 
-const placeholder = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="%2314142a"><rect width="200" height="200"/></svg>')
+const placeholder = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#11111d"/></svg>'
+)
 
 export const ArtistCard = ({ artist }) => {
   const navigate = useNavigate()
 
   return (
     <div
-      className="glass-card overflow-hidden cursor-pointer group text-center"
+      className="music-card text-center"
       onClick={() => navigate(`/artists/${artist.id}`)}
       role="button"
       tabIndex={0}
@@ -25,24 +27,25 @@ export const ArtistCard = ({ artist }) => {
             loading="lazy"
             onError={(e) => { e.target.src = placeholder }}
           />
+          {/* Hover overlay */}
           <div
-            className="absolute inset-0 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            className="absolute inset-0 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-250"
             style={{ background: 'rgba(0,0,0,0.55)' }}
           >
-            <div className="btn-play flex items-center justify-center active:scale-90 transition-transform duration-150"
-              style={{ width: 44, height: 44, boxShadow: '0 0 30px rgba(34,197,94,0.5)' }}
+            <div className="btn-play flex items-center justify-center"
+              style={{ width: 48, height: 48, boxShadow: '0 0 30px rgba(0,0,0,0.7)' }}
             >
-              <Users size={20} fill="white" />
+              <Play size={20} fill="white" style={{ marginLeft: 2 }} />
             </div>
           </div>
         </div>
       </div>
       <div className="p-3">
-        <p className="text-sm font-medium truncate" style={{ color: 'var(--color-text-primary)' }}>
+        <p className="font-semibold truncate" style={{ fontSize: '0.875rem', color: 'var(--color-text-primary)' }}>
           {artist.name}
         </p>
         {artist.artist_location && (
-          <p className="text-xs truncate mt-1" style={{ color: 'var(--color-text-muted)' }}>
+          <p className="truncate mt-1" style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
             {artist.artist_location}
           </p>
         )}
@@ -62,10 +65,7 @@ export const ArtistGrid = ({ artists, isLoading, emptyMessage = 'No artists foun
   }
 
   return (
-    <div
-      className="grid gap-4"
-      className="grid-artists"
-    >
+    <div className="grid-artists">
       {artists.map((artist) => (
         <ArtistCard key={artist.id} artist={artist} />
       ))}

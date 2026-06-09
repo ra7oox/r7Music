@@ -1,15 +1,16 @@
 import { useNavigate } from 'react-router-dom'
-import { Disc3, Clock, Music } from 'lucide-react'
+import { Play, Music } from 'lucide-react'
 import { CardGridSkeleton } from '@/components/ui/Skeleton'
 
-const placeholder = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="%2314142a"><rect width="200" height="200"/></svg>')
+const placeholder = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="#11111d"/></svg>'
+)
 
 const formatTotalDuration = (tracks) => {
   if (!tracks || tracks.length === 0) return null
   const total = tracks.reduce((sum, t) => sum + (t.duration || 0), 0)
   const min = Math.floor(total / 60)
-  const sec = Math.floor(total % 60)
-  return sec > 0 ? `${min} min ${sec} s` : `${min} min`
+  return `${min} min`
 }
 
 export const AlbumCard = ({ album }) => {
@@ -20,53 +21,54 @@ export const AlbumCard = ({ album }) => {
 
   return (
     <div
-      className="glass-card overflow-hidden cursor-pointer group"
+      className="music-card"
       onClick={() => navigate(`/albums/${album.id}`)}
       role="button"
       tabIndex={0}
       aria-label={`${album.name} by ${album.artist_name}`}
       onKeyDown={(e) => e.key === 'Enter' && navigate(`/albums/${album.id}`)}
     >
-      <div className="relative">
+      {/* Cover */}
+      <div className="relative" style={{ aspectRatio: '1' }}>
         <img
           src={album.image || album.album_image || placeholder}
           alt={`${album.name} cover`}
-          className="w-full aspect-square object-cover"
+          className="music-card-cover"
           loading="lazy"
           onError={(e) => { e.target.src = placeholder }}
         />
-        <div
-          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          style={{ background: 'rgba(0,0,0,0.55)' }}
-        >
-          <div className="btn-play btn-play-lg flex items-center justify-center active:scale-90 transition-transform duration-150"
-            style={{ boxShadow: '0 0 30px rgba(34,197,94,0.5)' }}
-          >
-            <Disc3 size={22} fill="white" />
-          </div>
+      </div>
+
+      {/* Hover play button */}
+      <div className="card-play-btn">
+        <div className="btn-play" style={{ width: 48, height: 48, boxShadow: '0 0 30px rgba(0,0,0,0.7)' }}>
+          <Play size={20} fill="white" style={{ marginLeft: 2 }} />
         </div>
       </div>
+
+      {/* Footer */}
       <div className="p-3">
-        <p className="text-sm font-medium truncate" style={{ color: 'var(--color-text-primary)' }}>
+        <p className="font-semibold truncate leading-tight" style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>
           {album.name}
         </p>
-        <p className="text-xs truncate mt-1" style={{ color: 'var(--color-text-muted)' }}>
+        <p className="truncate mt-1" style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
           {album.artist_name}
         </p>
-        <div className="flex items-center gap-3 mt-2">
-          {trackCount > 0 && (
-            <span className="text-[11px] flex items-center gap-1" style={{ color: 'var(--color-text-muted)' }}>
-              <Music size={11} />
-              {trackCount} track{trackCount > 1 ? 's' : ''}
-            </span>
-          )}
-          {totalDur && (
-            <span className="text-[11px] flex items-center gap-1" style={{ color: 'var(--color-text-muted)' }}>
-              <Clock size={11} />
-              {totalDur}
-            </span>
-          )}
-        </div>
+        {(trackCount > 0 || totalDur) && (
+          <div className="flex items-center gap-2 mt-2">
+            {trackCount > 0 && (
+              <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 3 }}>
+                <Music size={10} />
+                {trackCount} track{trackCount > 1 ? 's' : ''}
+              </span>
+            )}
+            {totalDur && (
+              <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                · {totalDur}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -83,10 +85,7 @@ export const AlbumGrid = ({ albums, isLoading, emptyMessage = 'No albums found' 
   }
 
   return (
-    <div
-      className="grid gap-4"
-      className="grid-albums"
-    >
+    <div className="grid-albums">
       {albums.map((album) => (
         <AlbumCard key={album.id} album={album} />
       ))}
