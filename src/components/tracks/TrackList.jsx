@@ -1,6 +1,7 @@
 import { useCallback, useRef, useEffect } from 'react'
 import { TrackCard } from './TrackCard'
 import { TrackListSkeleton } from '@/components/ui/Skeleton'
+import { Clock } from 'lucide-react'
 
 export const TrackList = ({
   tracks,
@@ -44,6 +45,19 @@ export const TrackList = ({
 
   return (
     <div role="table" aria-label="Track list">
+      {/* Table Header */}
+      <div
+        className="hidden sm:flex items-center gap-[14px] px-4 py-2.5 mb-3 text-xs font-bold tracking-wider uppercase border-b border-[rgba(255,255,255,0.05)]"
+        style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-display)' }}
+      >
+        <div className="flex-shrink-0 text-center" style={{ width: 24 }}>#</div>
+        <div className="flex-1" style={{ paddingLeft: 58 }}>Titre</div>
+        <div className="hidden lg:block flex-shrink-0" style={{ width: 180 }}>Album</div>
+        <div className="flex-shrink-0 text-right" style={{ width: 120, paddingRight: 12 }}>
+          <Clock size={13} style={{ display: 'inline-block', verticalAlign: 'middle', marginTop: -2 }} />
+        </div>
+      </div>
+
       {tracks.map((track, i) => {
         const isLast = i === tracks.length - 1
         return (

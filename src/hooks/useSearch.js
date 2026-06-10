@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { searchTracks, searchAlbums, searchArtists } from '@/services/jamendoService'
 import { searchArtists as lastfmSearchArtists } from '@/services/lastfmService'
 
+import { useSearchStore } from '@/store/searchStore'
+
 const DEBOUNCE_MS = 400
 
 const dedupeByName = (arr) => {
@@ -16,7 +18,8 @@ const dedupeByName = (arr) => {
 }
 
 export const useSearch = () => {
-  const [query, setQuery] = useState('')
+  const query = useSearchStore((s) => s.query)
+  const setQuery = useSearchStore((s) => s.setQuery)
   const [debouncedQuery, setDebouncedQuery] = useState('')
   const timerRef = useRef(null)
 

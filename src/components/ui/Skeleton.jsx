@@ -33,12 +33,7 @@ export const TrackListSkeleton = ({ count = 8 }) => (
 )
 
 export const CardGridSkeleton = ({ count = 6 }) => (
-  <div
-    className="grid gap-4"
-    style={{
-      gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-    }}
-  >
+  <div className="grid-cards">
     {Array.from({ length: count }).map((_, i) => (
       <CardSkeleton key={i} />
     ))}

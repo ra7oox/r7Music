@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { cacheGet, cacheSet } from './cache'
 
 const BASE_URL = 'https://api.jamendo.com/v3.0'
 const CLIENT_ID = import.meta.env.VITE_JAMENDO_CLIENT_ID || 'f282da85'
@@ -9,6 +10,25 @@ const api = axios.create({
     client_id: CLIENT_ID,
     format: 'json',
   },
+})
+
+// ─── SessionStorage cache interceptor ────────────────────────────────────────
+const CACHEABLE = ['/tracks', '/albums', '/artists']
+api.interceptors.request.use((config) => {
+  if (CACHEABLE.some((p) => config.url?.startsWith(p))) {
+    const key = config.url + JSON.stringify(config.params)
+    const cached = cacheGet(key)
+    if (cached) {
+      config.adapter = () => Promise.resolve({ data: cached, status: 200, statusText: 'OK', headers: {}, config })
+    } else {
+      const orig = axios.getAdapter(config.adapter || axios.defaults.adapter)
+      config.adapter = (...args) => orig(...args).then((res) => {
+        cacheSet(key, res.data)
+        return res
+      })
+    }
+  }
+  return config
 })
 
 // ─── Tracks ────────────────────────────────────────────────────────────────

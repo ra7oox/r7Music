@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { SearchBar } from '@/components/search/SearchBar'
 import { TrackList } from '@/components/tracks/TrackList'
 import { AlbumGrid } from '@/components/albums/AlbumView'
 import { ArtistGrid } from '@/components/artists/ArtistView'
@@ -19,51 +18,43 @@ export const SearchPage = () => {
   ]
 
   return (
-    <div className="px-6 py-4">
-      <div className="max-w-2xl mx-auto mb-6">
-        <h1 className="text-2xl font-bold gradient-text mb-4">Search</h1>
-        <SearchBar
-          value={query}
-          onChange={setQuery}
-          autoFocus
-          placeholder="Search tracks, artists, albums…"
-        />
+    <div className="page-container fade-in">
+      <div className="mx-auto mb-4">
+        <h1 className="page-heading text-brand-gradient font-display font-extrabold">Search</h1>
       </div>
 
-      {/* Empty state — no query typed yet */}
       {!query && (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <SearchIcon size={48} style={{ color: 'var(--color-text-muted)', opacity: 0.3 }} />
-          <p className="mt-4 text-sm" style={{ color: 'var(--color-text-muted)' }}>
-            Type at least 2 characters to search
+          <div className="flex items-center justify-center rounded-full mb-6"
+            style={{ width: 88, height: 88, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <SearchIcon size={32} style={{ color: 'var(--color-text-secondary)', opacity: 0.5 }} />
+          </div>
+          <p className="text-base font-bold text-white">
+            Find what you love
           </p>
-          <p className="text-xs mt-1" style={{ color: 'var(--color-text-muted)', opacity: 0.6 }}>
-            Press &mdash; to quickly search from anywhere
+          <p className="text-sm mt-1.5 font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+            Type at least 2 characters to start browsing
           </p>
         </div>
       )}
 
-      {/* Error state */}
       {isError && (
         <div role="alert" className="flex flex-col items-center justify-center py-16 text-center">
           <AlertCircle size={36} style={{ color: '#ef4444', opacity: 0.7 }} />
-          <p className="mt-3 text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+          <p className="mt-3 text-sm font-extrabold text-white">
             Search failed
           </p>
-          <p className="text-xs mt-1 max-w-md" style={{ color: 'var(--color-text-muted)' }}>
-            {error?.message || 'An unexpected error occurred. Check your API key in .env.local'}
+          <p className="text-xs mt-1 max-w-md" style={{ color: 'var(--color-text-secondary)' }}>
+            {error?.message || 'An unexpected error occurred'}
           </p>
         </div>
       )}
 
-      {/* Loading state — initial load */}
       {isSearching && isLoading && !isError && (
         <div>
-          <div className="flex gap-1 mb-6 border-b pb-2" style={{ borderColor: 'var(--color-border)' }}>
+          <div className="flex flex-wrap gap-2 mb-6">
             {TABS.map(({ key, label }) => (
-              <button key={key} className="px-4 py-2 text-sm font-medium rounded-full" style={{ color: 'var(--color-text-muted)' }}>
-                {label}
-              </button>
+              <button key={key} className="btn-pill">{label}</button>
             ))}
           </div>
           <TrackListSkeleton count={5} />
@@ -73,65 +64,95 @@ export const SearchPage = () => {
         </div>
       )}
 
-      {/* Results */}
       {isSearching && !isLoading && !isError && query && (
         <>
-          <div className="flex gap-1 mb-6 border-b pb-2" style={{ borderColor: 'var(--color-border)' }}>
+          <div className="flex flex-wrap gap-2 mb-8">
             {TABS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
-                className="px-4 py-2 text-sm font-medium rounded-full transition-all"
-                style={{
-                  background: activeTab === key ? 'rgba(139,92,246,0.2)' : 'transparent',
-                  color: activeTab === key ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
-                }}
+                className={`btn-pill ${activeTab === key ? 'active' : ''}`}
               >
                 {label}
               </button>
             ))}
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-12">
             {(activeTab === 'all' || activeTab === 'tracks') && (
               <section>
-                <div className="flex items-center gap-2 mb-3">
-                  <Music2 size={18} style={{ color: 'var(--color-accent-mid)' }} />
-                  {isFetching && <Loader2 size={14} style={{ animation: 'spin 1s linear infinite', color: 'var(--color-accent-mid)' }} />}
-                  <h2 className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--color-text-muted)' }}>Tracks</h2>
+                <div className="flex items-center gap-3 mb-6">
+                  <div
+                    className="flex items-center justify-center rounded-xl"
+                    style={{
+                      width: 38,
+                      height: 38,
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      boxShadow: `inset 0 0 10px rgba(124, 63, 228, 0.05)`,
+                    }}
+                  >
+                    <Music2 size={18} style={{ color: '#7C3FE4' }} />
+                  </div>
+                  <h2 className="font-display font-extrabold text-lg tracking-tight text-white flex items-center gap-2">
+                    Tracks
+                    {isFetching && <Loader2 size={14} style={{ animation: 'spin 1s linear infinite', color: '#7C3FE4' }} />}
+                  </h2>
                 </div>
                 {tracks.length > 0 ? (
                   <TrackList tracks={tracks} isLoading={false} queueTracks={tracks} />
                 ) : (
-                  <p className="text-xs py-4" style={{ color: 'var(--color-text-muted)' }}>No tracks found</p>
+                  <p className="py-6 text-center text-sm" style={{ color: 'var(--color-text-muted)' }}>No tracks found</p>
                 )}
               </section>
             )}
 
             {(activeTab === 'all' || activeTab === 'albums') && (
               <section>
-                <div className="flex items-center gap-2 mb-3">
-                  <Disc3 size={18} style={{ color: 'var(--color-accent-mid)' }} />
-                  <h2 className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--color-text-muted)' }}>Albums</h2>
+                <div className="flex items-center gap-3 mb-6">
+                  <div
+                    className="flex items-center justify-center rounded-xl"
+                    style={{
+                      width: 38,
+                      height: 38,
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      boxShadow: `inset 0 0 10px rgba(200, 56, 154, 0.05)`,
+                    }}
+                  >
+                    <Disc3 size={18} style={{ color: '#C8389A' }} />
+                  </div>
+                  <h2 className="font-display font-extrabold text-lg tracking-tight text-white">Albums</h2>
                 </div>
                 {albums.length > 0 ? (
                   <AlbumGrid albums={albums} isLoading={false} />
                 ) : (
-                  <p className="text-xs py-4" style={{ color: 'var(--color-text-muted)' }}>No albums found</p>
+                  <p className="py-6 text-center text-sm" style={{ color: 'var(--color-text-muted)' }}>No albums found</p>
                 )}
               </section>
             )}
 
             {(activeTab === 'all' || activeTab === 'artists') && (
               <section>
-                <div className="flex items-center gap-2 mb-3">
-                  <Users size={18} style={{ color: 'var(--color-accent-mid)' }} />
-                  <h2 className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--color-text-muted)' }}>Artists</h2>
+                <div className="flex items-center gap-3 mb-6">
+                  <div
+                    className="flex items-center justify-center rounded-xl"
+                    style={{
+                      width: 38,
+                      height: 38,
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      boxShadow: `inset 0 0 10px rgba(74, 143, 232, 0.05)`,
+                    }}
+                  >
+                    <Users size={18} style={{ color: '#4A8FE8' }} />
+                  </div>
+                  <h2 className="font-display font-extrabold text-lg tracking-tight text-white">Artists</h2>
                 </div>
                 {artists.length > 0 ? (
                   <ArtistGrid artists={artists} isLoading={false} />
                 ) : (
-                  <p className="text-xs py-4" style={{ color: 'var(--color-text-muted)' }}>No artists found</p>
+                  <p className="py-6 text-center text-sm" style={{ color: 'var(--color-text-muted)' }}>No artists found</p>
                 )}
               </section>
             )}
