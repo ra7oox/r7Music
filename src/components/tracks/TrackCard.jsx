@@ -35,9 +35,9 @@ export const TrackCard = ({ track, queueTracks, index }) => {
       onKeyDown={(e) => e.key === 'Enter' && handlePlay(e)}
     >
       {/* Index / Play button */}
-      <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 20 }}>
+      <div className="flex items-center justify-center w-8">
         {isActive && isPlaying ? (
-          <div className="flex items-end gap-[2px]" style={{ height: 14, width: 16 }}>
+          <div className="flex items-end gap-[2.5px]" style={{ height: 14, width: 14 }}>
             <div className="equalizer-bar" style={{ height: 6 }} />
             <div className="equalizer-bar" style={{ height: 11 }} />
             <div className="equalizer-bar" style={{ height: 7 }} />
@@ -47,15 +47,15 @@ export const TrackCard = ({ track, queueTracks, index }) => {
           <>
             {typeof index === 'number' && (
               <span
-                className="track-number group-hover:hidden"
-                style={{ color: isActive ? 'var(--color-accent-mid)' : 'var(--color-text-muted)' }}
+                className="track-number group-hover:hidden font-medium"
+                style={{ color: isActive ? 'var(--color-accent)' : 'var(--color-text-muted)' }}
               >
                 {index + 1}
               </span>
             )}
             <button
               className="hidden group-hover:flex items-center justify-center btn-icon"
-              style={{ width: 20, height: 20, color: 'var(--color-text-primary)' }}
+              style={{ width: 20, height: 20, color: isActive ? 'var(--color-accent)' : 'var(--color-text-primary)' }}
               aria-label={isActive ? 'Pause' : 'Play'}
               tabIndex={-1}
             >
@@ -65,73 +65,69 @@ export const TrackCard = ({ track, queueTracks, index }) => {
         )}
       </div>
 
-      {/* Cover */}
-      <div className="relative flex-shrink-0" style={{ width: 44, height: 44 }}>
-        {coverSrc ? (
-          <img
-            src={coverSrc}
-            alt=""
-            className="rounded-lg"
-            style={{ width: 44, height: 44, objectFit: 'cover', display: 'block' }}
-            onError={() => setImgError(true)}
-          />
-        ) : (
-          <div
-            className="rounded-lg flex items-center justify-center"
-            style={{ width: 44, height: 44, background: 'var(--color-bg-card-hover)' }}
+      {/* Title + Cover + Artist */}
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="relative flex-shrink-0" style={{ width: 40, height: 40 }}>
+          {coverSrc ? (
+            <img
+              src={coverSrc}
+              alt=""
+              className="rounded-md"
+              style={{ width: 40, height: 40, objectFit: 'cover', display: 'block' }}
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            <div
+              className="rounded-md flex items-center justify-center"
+              style={{ width: 40, height: 40, background: 'var(--color-bg-card-hover)' }}
+            >
+              <Music size={16} style={{ color: 'var(--color-text-muted)' }} />
+            </div>
+          )}
+        </div>
+        <div className="min-w-0 flex-1">
+          <p
+            className="truncate font-semibold text-sm leading-snug"
+            style={{
+              color: isActive ? 'var(--color-accent)' : 'var(--color-text-primary)',
+            }}
           >
-            <Music size={18} style={{ color: 'var(--color-text-muted)' }} />
-          </div>
-        )}
+            {track.name}
+          </p>
+          <p className="truncate text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>
+            {track.artist_name}
+          </p>
+        </div>
       </div>
 
-      {/* Title + Artist */}
-      <div className="flex-1 min-w-0">
-        <p
-          className="truncate leading-tight"
-          style={{
-            fontSize: '0.9375rem',
-            color: isActive ? 'var(--color-accent-mid)' : 'var(--color-text-primary)',
-            fontWeight: isActive ? 600 : 400,
-          }}
-        >
-          {track.name}
-        </p>
-        <p className="truncate mt-0.5" style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)' }}>
-          {track.artist_name}
-        </p>
+      {/* Album name (desktop/tablet grid column) */}
+      <div className="hidden md:block min-w-0 truncate text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+        {track.album_name || ''}
       </div>
 
-      {/* Album name (desktop only) */}
-      <div className="hidden lg:block min-w-0 flex-shrink-0" style={{ width: 160 }}>
-        <p className="text-sm truncate" style={{ color: 'var(--color-text-secondary)' }}>
-          {track.album_name || ''}
-        </p>
-      </div>
-
-      {/* Actions */}
-      <div className="flex items-center gap-0.5 flex-shrink-0">
+      {/* Actions (Heart + Download) */}
+      <div className="flex items-center gap-1">
         <button
-          className="btn-icon"
+          className={`btn-icon transition-opacity ${favorite ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 focus-within:opacity-100'}`}
           aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
           onClick={(e) => { e.stopPropagation(); toggleFavorite(track) }}
           style={{
-            width: 32, height: 32,
-            opacity: favorite ? 1 : undefined,
-            color: favorite ? 'var(--color-accent-to)' : undefined,
+            width: 32,
+            height: 32,
+            color: favorite ? 'var(--color-brand-to)' : undefined,
           }}
         >
           <Heart size={15} fill={favorite ? 'currentColor' : 'none'} strokeWidth={1.8} />
         </button>
-        <div className="hidden sm:block opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="hidden sm:block opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
           <DownloadButton track={track} />
         </div>
       </div>
 
       {/* Duration */}
       <span
-        className="tabular-nums flex-shrink-0"
-        style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', minWidth: 40, textAlign: 'right' }}
+        className="tabular-nums text-xs text-right pr-2"
+        style={{ color: 'var(--color-text-secondary)', minWidth: 40 }}
       >
         {formatDuration(track.duration)}
       </span>

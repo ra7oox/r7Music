@@ -1,0 +1,19 @@
+{
+  "name": "R7Music — Free Music Streaming",
+  "short_name": "R7Music",
+  "description": "Discover and stream free music from Jamendo. Premium dark music player.",
+  "start_url": "/r7Music/",
+  "display": "standalone",
+  "background_color": "#0D0D0D",
+  "theme_color": "#0D0D0D",
+  "orientation": "portrait-primary",
+  "categories": ["music", "entertainment"],
+  "icons": [
+    {
+      "src": "/r7music-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

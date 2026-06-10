@@ -6,6 +6,41 @@ audio.preload = 'auto'
 let loadTimeout = null
 let playingTrackId = null
 
+// ── Audio Visualizer (AnalyserNode) ──────────────────────────────────────────
+let analyserNode = null
+let audioCtx = null
+
+try {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext
+  audioCtx = new AudioCtx()
+  analyserNode = audioCtx.createAnalyser()
+  analyserNode.fftSize = 128
+  analyserNode.smoothingTimeConstant = 0.8
+  const srcNode = audioCtx.createMediaElementSource(audio)
+  srcNode.connect(analyserNode)
+  // Don't connect analyser → destination to avoid double-audio.
+  // Visualizer only reads, doesn't route to speakers.
+} catch {}
+
+// Resume AudioContext on first user gesture (browser policy)
+const resumeAudioCtx = () => {
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => {})
+  }
+  document.removeEventListener('pointerdown', resumeAudioCtx, true)
+  document.removeEventListener('keydown', resumeAudioCtx, true)
+}
+document.addEventListener('pointerdown', resumeAudioCtx, { once: true, capture: true })
+document.addEventListener('keydown', resumeAudioCtx, { once: true, capture: true })
+
+export const getFrequencyData = () => {
+  if (!analyserNode) return null
+  const data = new Uint8Array(analyserNode.frequencyBinCount)
+  analyserNode.getByteFrequencyData(data)
+  return data
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 // ── Media Session helpers ────────────────────────────────────────────────────
 // Music note SVG used as notification artwork (avoids showing the app logo)
 const MUSIC_NOTE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

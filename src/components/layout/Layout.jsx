@@ -4,10 +4,13 @@ import { MobileNav } from './MobileNav'
 import { PlayerBar } from '@/components/player/PlayerBar'
 import { NowPlayingPanel } from '@/components/player/NowPlayingPanel'
 import { usePlayerStore } from '@/store/playerStore'
+import { useKeyboardShortcuts } from '@/hooks/useControls'
 
 export const Layout = () => {
   const location     = useLocation()
   const currentTrack = usePlayerStore((s) => s.currentTrack)
+
+  useKeyboardShortcuts()
 
   return (
     <div
@@ -19,7 +22,7 @@ export const Layout = () => {
         <Sidebar />
       </div>
 
-      {/* Main content */}
+      {/* Main content (scrollable column) */}
       <main
         key={location.pathname}
         className="scroll-col slide-up"
@@ -33,7 +36,7 @@ export const Layout = () => {
         <Outlet />
       </main>
 
-      {/* Now Playing panel */}
+      {/* Now Playing panel (scrollable column) */}
       {currentTrack && <NowPlayingPanel />}
 
       {/* Sticky player bar */}
