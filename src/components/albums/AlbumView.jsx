@@ -21,7 +21,7 @@ export const AlbumCard = ({ album }) => {
 
   return (
     <div
-      className="music-card group"
+      className="music-card"
       onClick={() => navigate(`/albums/${album.id}`)}
       role="button"
       tabIndex={0}
@@ -29,43 +29,41 @@ export const AlbumCard = ({ album }) => {
       onKeyDown={(e) => e.key === 'Enter' && navigate(`/albums/${album.id}`)}
     >
       {/* Cover */}
-      <div className="relative w-full aspect-square overflow-hidden rounded-lg">
+      <div className="relative" style={{ aspectRatio: '1' }}>
         <img
           src={album.image || album.album_image || placeholder}
           alt={`${album.name} cover`}
-          className="music-card-cover w-full h-full object-cover"
+          className="music-card-cover"
           loading="lazy"
           onError={(e) => { e.target.src = placeholder }}
         />
-        {/* Hover play button floating on the cover */}
-        <div
-          className="absolute bottom-2 right-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out shadow-lg"
-          style={{ zIndex: 10 }}
-        >
-          <div className="btn-play" style={{ width: 40, height: 40 }}>
-            <Play size={16} fill="white" style={{ marginLeft: 2 }} />
-          </div>
+      </div>
+
+      {/* Hover play button */}
+      <div className="card-play-btn">
+        <div className="btn-play" style={{ width: 48, height: 48, boxShadow: '0 0 30px rgba(0,0,0,0.7)' }}>
+          <Play size={20} fill="white" style={{ marginLeft: 2 }} />
         </div>
       </div>
 
       {/* Footer */}
-      <div className="pt-3.5">
-        <p className="font-bold truncate leading-tight" style={{ fontSize: '0.875rem', color: 'var(--color-text-primary)' }}>
+      <div className="p-3">
+        <p className="font-semibold truncate leading-tight" style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)' }}>
           {album.name}
         </p>
-        <p className="truncate mt-1.5" style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)' }}>
+        <p className="truncate mt-1" style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
           {album.artist_name}
         </p>
         {(trackCount > 0 || totalDur) && (
           <div className="flex items-center gap-2 mt-2">
             {trackCount > 0 && (
-              <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 3 }}>
-                <Music size={11} />
+              <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 3 }}>
+                <Music size={10} />
                 {trackCount} track{trackCount > 1 ? 's' : ''}
               </span>
             )}
             {totalDur && (
-              <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+              <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
                 · {totalDur}
               </span>
             )}

@@ -69,29 +69,29 @@ export const PlayerBar = () => {
       <div className="player-bar" role="region" aria-label="Music player">
 
         {/* ═══ MOBILE ═══ */}
-        <div className="md:hidden w-full flex items-center h-full relative">
-          {/* Seek strip at the bottom of the floating pill */}
-          <div style={{ position: 'absolute', bottom: 4, left: 12, right: 12, height: 2, zIndex: 2 }}>
-            <div className="progress-track" style={{ height: 2, borderRadius: 1, background: 'rgba(255,255,255,0.08)' }}>
-              <div className="progress-fill" style={{ width: `${progress * 100}%`, height: 2, borderRadius: 1 }} />
+        <div className="md:hidden w-full">
+          {/* Seek strip */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, zIndex: 2 }}>
+            <div className="progress-track" style={{ height: 3, borderRadius: 0 }}>
+              <div className="progress-fill" style={{ width: `${progress * 100}%`, height: 3, borderRadius: 0 }} />
             </div>
             <input ref={seekRef} type="range" min={0} max={1} step={0.001} value={progress}
               onChange={handleSeek} aria-label="Seek"
               style={{ position: 'absolute', inset: 0, opacity: 0, zIndex: 3, margin: 0, cursor: 'pointer' }} />
           </div>
 
-          <div className="flex items-center gap-3 w-full px-1">
+          <div className="flex items-center gap-2 w-full px-2" style={{ paddingTop: 4 }}>
             <button className="flex items-center gap-3 min-w-0 flex-1 text-left"
               onClick={toggleNowPlaying} aria-label="Open now playing"
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
               {currentTrack.album_image ? (
-                <img src={currentTrack.album_image} alt="" className="rounded-lg flex-shrink-0"
-                  style={{ width: 40, height: 40, objectFit: 'cover', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }} />
+                <img src={currentTrack.album_image} alt="" className="rounded flex-shrink-0"
+                  style={{ width: 48, height: 48, objectFit: 'cover', boxShadow: '0 4px 12px rgba(0,0,0,0.5)' }} />
               ) : (
-                <div className="rounded-lg flex-shrink-0" style={{ width: 40, height: 40, background: 'var(--color-bg-card)' }} />
+                <div className="rounded flex-shrink-0" style={{ width: 48, height: 48, background: 'var(--color-bg-card)' }} />
               )}
               <div className="min-w-0">
-                <p className="font-semibold truncate" style={{ fontSize: '0.8125rem', color: 'var(--color-text-primary)' }}>
+                <p className="font-semibold truncate" style={{ fontSize: '0.875rem', color: 'var(--color-text-primary)' }}>
                   {currentTrack.name}
                 </p>
                 <p className="truncate mt-0.5" style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
@@ -100,21 +100,21 @@ export const PlayerBar = () => {
               </div>
             </button>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <button className="btn-icon" onClick={() => toggleFavorite(currentTrack)} aria-label={isFav ? 'Unlike' : 'Like'}
                 style={{ width: 32, height: 32, color: isFav ? 'var(--color-accent)' : undefined }}>
                 <Heart size={16} fill={isFav ? 'currentColor' : 'none'} strokeWidth={1.8} />
               </button>
               <button className="btn-play" onClick={togglePlay} disabled={isLoading} aria-label={isPlaying ? 'Pause' : 'Play'}
-                style={{ width: 38, height: 38 }}>
+                style={{ width: 42, height: 42 }}>
                 {isLoading ? (
                   <div className="flex items-end gap-[2px]" style={{ height: 12 }}>
                     {[1,2,3].map(i => <div key={i} className="equalizer-bar" style={{ height: [5,9,4][i-1], background: '#000' }} />)}
                   </div>
-                ) : isPlaying ? <Pause size={15} fill="white" /> : <Play size={15} fill="white" style={{ marginLeft: 1 }} />}
+                ) : isPlaying ? <Pause size={17} fill="white" /> : <Play size={17} fill="white" style={{ marginLeft: 1 }} />}
               </button>
               <button className="btn-icon" onClick={next} aria-label="Next" style={{ width: 32, height: 32 }}>
-                <SkipForward size={16} />
+                <SkipForward size={17} />
               </button>
             </div>
           </div>
@@ -200,10 +200,10 @@ export const PlayerBar = () => {
                 onMouseLeave={handleSeekLeave}
                 onClick={handleSeekClick}>
                 {/* Track background */}
-                <div className="absolute inset-x-0 rounded-full transition-[height] duration-100 group-hover/seek:h-[5px]" style={{ height: 3, background: 'rgba(255,255,255,0.08)' }} />
+                <div className="absolute inset-x-0 rounded-full" style={{ height: 3, background: 'rgba(255,255,255,0.08)', transition: 'height 120ms' }} />
                 {/* Fill */}
-                <div className="absolute left-0 rounded-full progress-fill transition-[height] duration-100 group-hover/seek:h-[5px]"
-                  style={{ width: `${progress * 100}%`, height: 3 }} />
+                <div className="absolute left-0 rounded-full progress-fill"
+                  style={{ width: `${progress * 100}%`, height: 3, transition: 'height 120ms' }} />
                 {/* Hover preview dot */}
                 {hoverTime && (
                   <>

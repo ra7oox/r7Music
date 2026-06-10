@@ -11,39 +11,44 @@ export const ArtistCard = ({ artist }) => {
 
   return (
     <div
-      className="music-card group text-center"
+      className="music-card text-center"
       onClick={() => navigate(`/artists/${artist.id}`)}
       role="button"
       tabIndex={0}
       aria-label={artist.name}
       onKeyDown={(e) => e.key === 'Enter' && navigate(`/artists/${artist.id}`)}
     >
-      <div className="relative mx-auto w-[120px] aspect-square overflow-hidden rounded-full shadow-lg">
-        <img
-          src={artist.image || artist.artist_image || placeholder}
-          alt={artist.name}
-          className="w-full h-full object-cover"
-          loading="lazy"
-          onError={(e) => { e.target.src = placeholder }}
-        />
-        {/* Hover overlay play button */}
-        <div
-          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          style={{ background: 'rgba(0,0,0,0.5)' }}
-        >
-          <div className="btn-play" style={{ width: 40, height: 40 }}>
-            <Play size={16} fill="white" style={{ marginLeft: 2 }} />
+      <div className="p-4 pb-0">
+        <div className="relative mx-auto" style={{ width: 140, height: 140 }}>
+          <img
+            src={artist.image || artist.artist_image || placeholder}
+            alt={artist.name}
+            className="w-full h-full object-cover rounded-full"
+            loading="lazy"
+            onError={(e) => { e.target.src = placeholder }}
+          />
+          {/* Hover overlay */}
+          <div
+            className="absolute inset-0 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-250"
+            style={{ background: 'rgba(0,0,0,0.55)' }}
+          >
+            <div className="btn-play flex items-center justify-center"
+              style={{ width: 48, height: 48, boxShadow: '0 0 30px rgba(0,0,0,0.7)' }}
+            >
+              <Play size={20} fill="white" style={{ marginLeft: 2 }} />
+            </div>
           </div>
         </div>
       </div>
-
-      <div className="pt-3.5">
-        <p className="font-bold truncate text-sm" style={{ color: 'var(--color-text-primary)' }}>
+      <div className="p-3">
+        <p className="font-semibold truncate" style={{ fontSize: '0.875rem', color: 'var(--color-text-primary)' }}>
           {artist.name}
         </p>
-        <p className="truncate mt-1 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-          {artist.artist_location || 'Artist'}
-        </p>
+        {artist.artist_location && (
+          <p className="truncate mt-1" style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+            {artist.artist_location}
+          </p>
+        )}
       </div>
     </div>
   )

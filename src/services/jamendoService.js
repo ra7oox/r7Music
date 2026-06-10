@@ -21,7 +21,7 @@ api.interceptors.request.use((config) => {
     if (cached) {
       config.adapter = () => Promise.resolve({ data: cached, status: 200, statusText: 'OK', headers: {}, config })
     } else {
-      const orig = config.adapter || axios.defaults.adapter
+      const orig = axios.getAdapter(config.adapter || axios.defaults.adapter)
       config.adapter = (...args) => orig(...args).then((res) => {
         cacheSet(key, res.data)
         return res
