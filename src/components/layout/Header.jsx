@@ -7,12 +7,12 @@ export const Header = ({ title = '' }) => {
 
   return (
     <header
-      className="flex items-center gap-3 px-4 md:px-5 py-3"
+      className="flex items-center gap-4 px-6 md:px-12 py-4"
       style={{
-        background: 'rgba(9,9,15,0.80)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderBottom: '1px solid var(--color-border)',
+        background: 'rgba(6, 4, 12, 0.45)',
+        backdropFilter: 'blur(30px)',
+        WebkitBackdropFilter: 'blur(30px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
         position: 'sticky',
         top: 0,
         zIndex: 50,
@@ -20,20 +20,16 @@ export const Header = ({ title = '' }) => {
     >
       {/* Logo — only on mobile (desktop has sidebar) */}
       <button
-        className="md:hidden flex items-center gap-1.5 flex-shrink-0"
+        className="md:hidden flex items-center gap-2 flex-shrink-0"
         onClick={() => navigate('/')}
         aria-label="r7Music home"
         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
       >
         <R7MusicLogo size={32} />
         <span
-          className="font-bold text-sm"
+          className="font-extrabold text-sm text-brand-gradient"
           style={{
             fontFamily: 'var(--font-display)',
-            background: 'linear-gradient(135deg, var(--color-brand-from), var(--color-brand-via), var(--color-brand-to))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
           }}
         >
           r7Music
@@ -43,15 +39,14 @@ export const Header = ({ title = '' }) => {
       {/* Page title — desktop only */}
       {title && (
         <h1
-          className="hidden md:block text-lg font-bold flex-shrink-0"
-          style={{ color: 'var(--color-text-primary)' }}
+          className="hidden md:block text-base font-extrabold flex-shrink-0 tracking-tight text-white font-display"
         >
           {title}
         </h1>
       )}
 
       {/* Search bar */}
-      <div className="flex-1 max-w-lg" style={{ marginLeft: title ? undefined : 0 }}>
+      <div className="flex-1 max-w-md md:ml-auto">
         <SearchBar onSearch={() => navigate('/search')} />
       </div>
     </header>

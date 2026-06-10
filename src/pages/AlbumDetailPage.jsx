@@ -29,7 +29,7 @@ export const AlbumDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="px-4 md:px-6 py-5 fade-in">
+      <div className="px-6 md:px-12 py-6 fade-in">
         <TrackListSkeleton count={10} />
       </div>
     )
@@ -38,36 +38,52 @@ export const AlbumDetailPage = () => {
   return (
     <>
       <Header title={album?.name || 'Album'} />
-      <div className="px-4 md:px-6 py-5 fade-in">
+      <div className="px-6 md:px-12 py-6 fade-in">
         <button
-          className="btn-icon mb-4"
+          className="btn-icon mb-6"
           aria-label="Go back"
           onClick={() => navigate(-1)}
+          style={{ width: 38, height: 38 }}
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={18} />
         </button>
 
-        <div className="flex gap-6 mb-8 flex-wrap">
-          <img
-            src={album?.image || album?.album_image || ''}
-            alt={`${album?.name} cover`}
-            className="rounded-2xl shadow-glow flex-shrink-0"
-            style={{ width: 200, height: 200, objectFit: 'cover' }}
-          />
-          <div className="flex flex-col justify-end min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: 'var(--color-text-muted)' }}>
-              <Disc3 size={14} style={{ display: 'inline', marginRight: 4 }} />
+        <div className="flex gap-6 mb-10 flex-wrap items-end relative z-10">
+          <div className="relative flex-shrink-0 group" style={{ width: 200, height: 200 }}>
+            <img
+              src={album?.image || album?.album_image || ''}
+              alt={`${album?.name} cover`}
+              className="rounded-2xl shadow-2xl w-full h-full object-cover"
+              style={{ border: '1px solid rgba(255,255,255,0.1)' }}
+            />
+            {album?.image && (
+              <div className="absolute inset-0 rounded-2xl -z-10 blur-2xl opacity-60 scale-95"
+                style={{
+                  background: `url(${album.image})`,
+                  backgroundSize: 'cover',
+                }} />
+            )}
+          </div>
+          <div className="flex flex-col justify-end min-w-0 flex-1">
+            <span className="badge badge-brand mb-3 inline-flex items-center gap-1.5 px-3 py-1 font-semibold tracking-wider text-[10px] uppercase w-fit">
+              <Disc3 size={10} className="text-[#C8389A]" />
               Album
-            </p>
-            <h1 className="text-3xl font-bold mb-2">{album?.name}</h1>
-            <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+            </span>
+            <h1 className="text-3xl md:text-4xl font-extrabold mb-3 tracking-tight text-white font-display leading-tight">{album?.name}</h1>
+            <p className="text-base font-bold text-brand-gradient">
               {album?.artist_name}
             </p>
-            <p className="text-xs mt-2 flex items-center gap-1" style={{ color: 'var(--color-text-muted)' }}>
-              <Music size={12} />
-              {tracks.length} tracks
-              {album?.releasedate && ` · ${album.releasedate}`}
-            </p>
+            <div className="text-xs font-semibold mt-3 flex items-center gap-2" style={{ color: 'var(--color-text-secondary)' }}>
+              <span className="flex items-center gap-1">
+                <Music size={11} />
+                {tracks.length} tracks
+              </span>
+              {album?.releasedate && (
+                <span>
+                  · Released {album.releasedate}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 

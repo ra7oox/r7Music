@@ -24,10 +24,10 @@ const NavItem = ({ to, icon: Icon, label }) => (
     {({ isActive }) => (
       <>
         <Icon
-          size={20}
+          size={18}
           aria-hidden="true"
-          strokeWidth={isActive ? 2.5 : 1.8}
-          style={{ color: isActive ? 'var(--color-text-primary)' : undefined, flexShrink: 0 }}
+          strokeWidth={isActive ? 2.2 : 1.8}
+          style={{ flexShrink: 0 }}
         />
         {label}
       </>
@@ -42,38 +42,38 @@ export const Sidebar = () => {
 
   return (
     <aside
+      className="glass-strong"
       style={{
         position: 'sticky',
         top: 0,
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        padding: '24px 0',
-        background: '#000000',
+        padding: '28px 0',
+        borderTop: 'none',
+        borderLeft: 'none',
+        borderBottom: 'none',
         borderRight: '1px solid rgba(255,255,255,0.06)',
         overflowY: 'auto',
-        paddingBottom: 100,
+        paddingBottom: 110,
+        zIndex: 10,
       }}
       aria-label="Main navigation"
     >
       {/* Logo */}
-      <div className="flex items-center gap-2 px-6 mb-8">
-        <R7MusicLogo size={40} />
+      <div className="flex items-center gap-3 px-6 mb-8">
+        <R7MusicLogo size={42} />
         <div>
           <span
-            className="block font-bold leading-tight"
+            className="inline-block font-bold leading-none tracking-tight text-brand-gradient"
             style={{
               fontFamily: 'var(--font-display)',
-              fontSize: '1.125rem',
-              background: 'linear-gradient(135deg, var(--color-brand-from), var(--color-brand-via), var(--color-brand-to))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              fontSize: '1.25rem',
             }}
           >
             r7Music
           </span>
-          <span className="block" style={{ fontSize: '0.6875rem', color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <span className="block mt-1" style={{ fontSize: '0.65rem', color: 'var(--color-text-secondary)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
             Free Streaming
           </span>
         </div>
@@ -81,17 +81,17 @@ export const Sidebar = () => {
 
       {/* Nav */}
       <nav className="flex-1 px-3">
-        <p className="px-3 mb-2" style={{ fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>
+        <p className="px-4 mb-3" style={{ fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>
           Menu
         </p>
-        <div className="flex flex-col gap-0.5 mb-6">
+        <div className="flex flex-col gap-2.5 mb-8">
           {NAV_MAIN.map((item) => <NavItem key={item.to} {...item} />)}
         </div>
 
-        <p className="px-3 mb-2" style={{ fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>
+        <p className="px-4 mb-3" style={{ fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>
           Browse
         </p>
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-2.5">
           {NAV_BROWSE.map((item) => <NavItem key={item.to} {...item} />)}
         </div>
       </nav>
@@ -100,17 +100,20 @@ export const Sidebar = () => {
       {currentTrack && (
         <button
           onClick={toggleNowPlaying}
+          className="glass hover-glow-brand"
           style={{
-            margin: '0 12px 12px',
-            padding: '10px 12px',
-            borderRadius: 8,
-            background: 'rgba(255,255,255,0.07)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            margin: '0 12px 16px',
+            padding: '12px',
+            borderRadius: '16px',
+            background: 'rgba(255,255,255,0.02)',
+            border: '1px solid rgba(255,255,255,0.06)',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: 10,
+            gap: 12,
             textAlign: 'left',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
           }}
           aria-label="Open now playing"
         >
@@ -118,18 +121,20 @@ export const Sidebar = () => {
             <img
               src={currentTrack.album_image}
               alt=""
-              className="rounded flex-shrink-0"
-              style={{ width: 36, height: 36, objectFit: 'cover' }}
+              className="rounded-lg flex-shrink-0"
+              style={{ width: 40, height: 40, objectFit: 'cover', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}
             />
           ) : (
-            <div style={{ width: 36, height: 36, borderRadius: 4, background: 'var(--color-bg-card)', flexShrink: 0 }} />
+            <div className="rounded-lg flex-shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, background: 'var(--color-bg-card)', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <Music2 size={16} style={{ color: 'var(--color-text-muted)' }} />
+            </div>
           )}
           <div className="min-w-0 flex-1">
             <p
-              className="truncate font-medium"
-              style={{ fontSize: '0.8125rem', color: 'var(--color-text-primary)' }}
+              className="truncate font-bold text-white"
+              style={{ fontSize: '0.8125rem' }}
             >
-              {currentTrack.name}
+              <span className="text-brand-gradient">{currentTrack.name}</span>
             </p>
             <p
               className="truncate mt-0.5"
@@ -141,7 +146,7 @@ export const Sidebar = () => {
           {isPlaying && (
             <div className="flex items-end gap-[2px] flex-shrink-0" style={{ height: 12 }}>
               <div className="equalizer-bar" style={{ height: 5 }} />
-              <div className="equalizer-bar" style={{ height: 9 }} />
+              <div className="equalizer-bar" style={{ height: 10 }} />
               <div className="equalizer-bar" style={{ height: 6 }} />
             </div>
           )}
@@ -150,13 +155,14 @@ export const Sidebar = () => {
 
       {/* Footer */}
       <div className="px-6 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', lineHeight: 1.7 }}>
+        <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
           Powered by{' '}
           <a
             href="https://www.jamendo.com"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: 'var(--color-text-secondary)' }}
+            style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', transition: 'color 0.2s' }}
+            className="hover:text-white"
           >
             Jamendo
           </a>

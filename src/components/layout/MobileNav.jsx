@@ -19,20 +19,21 @@ export const MobileNav = () => {
       aria-label="Mobile navigation"
       style={{
         position: 'fixed',
-        bottom: currentTrack ? 60 : 0,
+        bottom: currentTrack ? 76 : 0,
         left: 0,
         right: 0,
         zIndex: 99,
-        height: 58,
-        background: 'rgba(9, 9, 15, 0.96)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderTop: '1px solid rgba(124,63,228,0.15)',
+        height: 60,
+        background: 'rgba(6, 4, 12, 0.7)',
+        backdropFilter: 'blur(32px)',
+        WebkitBackdropFilter: 'blur(32px)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.06)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
         paddingLeft: 8,
         paddingRight: 8,
+        transition: 'bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
       {NAV.map(({ to, icon: Icon, label }) => (
@@ -44,30 +45,30 @@ export const MobileNav = () => {
         >
           {({ isActive }) => (
             <div
-              className="flex flex-col items-center justify-center gap-0.5 transition-all"
+              className="flex flex-col items-center justify-center gap-1 transition-all duration-300"
               style={{
-                padding: '5px 10px',
-                borderRadius: 12,
+                padding: '6px 12px',
+                borderRadius: 14,
                 background: isActive
-                  ? 'linear-gradient(135deg, rgba(124,63,228,0.22), rgba(200,56,154,0.16))'
+                  ? 'linear-gradient(135deg, rgba(74, 143, 232, 0.15) 0%, rgba(124, 63, 228, 0.15) 50%, rgba(200, 56, 154, 0.15) 100%)'
                   : 'transparent',
-                minWidth: 48,
+                border: isActive ? '1px solid rgba(124, 63, 228, 0.2)' : '1px solid transparent',
+                minWidth: 54,
               }}
             >
               <Icon
-                size={19}
+                size={18}
                 style={{
-                  color: isActive ? 'var(--color-accent-mid)' : 'var(--color-text-muted)',
+                  color: isActive ? 'white' : 'var(--color-text-secondary)',
                   transition: 'color 200ms',
                   strokeWidth: isActive ? 2.2 : 1.8,
                 }}
               />
               <span
-                className="text-[9px] font-semibold"
+                className="text-[9px] font-bold tracking-wider"
                 style={{
-                  color: isActive ? 'var(--color-accent-mid)' : 'var(--color-text-muted)',
+                  color: isActive ? 'white' : 'var(--color-text-secondary)',
                   transition: 'color 200ms',
-                  letterSpacing: '0.03em',
                 }}
               >
                 {label}

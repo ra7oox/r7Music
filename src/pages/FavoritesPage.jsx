@@ -13,19 +13,21 @@ const EmptyFavorites = () => {
         className="flex items-center justify-center mb-6 rounded-full"
         style={{
           width: 88, height: 88,
-          background: 'linear-gradient(135deg, rgba(124,63,228,0.2), rgba(200,56,154,0.15))',
-          border: '1px solid rgba(200,56,154,0.25)',
+          background: 'linear-gradient(135deg, rgba(124,63,228,0.15), rgba(200,56,154,0.1))',
+          border: '1px solid rgba(200,56,154,0.2)',
+          boxShadow: '0 0 32px rgba(200,56,154,0.15)',
         }}
       >
         <Heart
           size={36}
-          style={{ color: 'var(--color-brand-to)', opacity: 0.7 }}
+          style={{ color: '#C8389A', opacity: 0.8 }}
+          fill="#C8389A"
         />
       </div>
-      <h2 className="text-xl font-bold mb-2" style={{ color: 'var(--color-text-primary)' }}>
+      <h2 className="text-xl font-extrabold mb-2 text-white">
         No favorites yet
       </h2>
-      <p className="text-sm max-w-xs mb-8" style={{ color: 'var(--color-text-muted)', lineHeight: 1.7 }}>
+      <p className="text-sm max-w-xs mb-8" style={{ color: 'var(--color-text-secondary)', lineHeight: 1.7 }}>
         Browse tracks and tap the heart icon to save them here for quick access.
       </p>
       <button
@@ -46,24 +48,27 @@ export const FavoritesPage = () => {
   return (
     <>
       <Header title="Favorites" />
-      <div className="px-4 md:px-6 py-5 fade-in">
-        <div className="flex items-center gap-3 mb-6">
+      <div className="px-6 md:px-12 py-6 fade-in">
+        <div className="flex items-center gap-3 mb-8">
           <div
             className="flex items-center justify-center rounded-xl"
             style={{
-              width: 44, height: 44,
-              background: 'linear-gradient(135deg, rgba(200,56,154,0.25), rgba(124,63,228,0.15))',
+              width: 38,
+              height: 38,
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              boxShadow: `inset 0 0 10px rgba(200, 56, 154, 0.05)`,
             }}
           >
-            <Heart size={20} style={{ color: 'var(--color-brand-to)' }} fill="var(--color-brand-to)" />
+            <Heart size={18} style={{ color: '#C8389A' }} fill="#C8389A" />
           </div>
           <div>
-            <h2 className="section-heading" style={{ marginBottom: 0 }}>
+            <h2 className="font-display font-extrabold text-xl md:text-2xl tracking-tight text-white">
               Your Favorites
             </h2>
             {favorites.length > 0 && (
-              <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-                {favorites.length} {favorites.length === 1 ? 'track' : 'tracks'}
+              <p className="text-xs font-semibold mt-1" style={{ color: 'var(--color-text-secondary)' }}>
+                {favorites.length} {favorites.length === 1 ? 'track' : 'tracks'} saved
               </p>
             )}
           </div>
