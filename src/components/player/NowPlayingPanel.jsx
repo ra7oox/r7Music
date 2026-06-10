@@ -41,11 +41,13 @@ export const NowPlayingPanel = () => {
       <div className="hidden md:flex slide-left scroll-col glass-strong"
         style={{
           gridColumn: 3, gridRow: 1,
-          width: 320,
+          height: '100%',
           flexDirection: 'column', alignItems: 'center',
-          padding: '32px 24px', paddingBottom: '110px',
+          padding: '32px 20px', paddingBottom: '110px',
           position: 'relative',
-          borderLeft: '1px solid rgba(255, 255, 255, 0.06)',
+          borderRadius: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.06)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
           zIndex: 10,
         }}>
         <button className="btn-icon" onClick={toggleNowPlaying} aria-label="Close"
@@ -168,9 +170,28 @@ export const NowPlayingPanel = () => {
           WebkitBackdropFilter: 'blur(36px)',
           padding: '24px', paddingBottom: '90px',
         }}>
-        <button className="btn-icon" onClick={toggleNowPlaying} aria-label="Close"
-          style={{ position: 'absolute', top: 20, left: 20, width: 40, height: 40 }}>
-          <ChevronDown size={22} />
+        <button 
+          onClick={toggleNowPlaying} 
+          aria-label="Close now playing"
+          style={{ 
+            position: 'absolute', 
+            top: 'max(24px, env(safe-area-inset-top))', 
+            left: '24px', 
+            width: 44, 
+            height: 44,
+            borderRadius: '50%',
+            background: '#1f1f1f',
+            color: 'white',
+            border: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+            zIndex: 210,
+          }}
+        >
+          <ChevronDown size={24} />
         </button>
 
         <span className="badge badge-brand mb-6 inline-flex items-center gap-1.5 px-3 py-1 font-semibold tracking-wider text-[10px] uppercase">

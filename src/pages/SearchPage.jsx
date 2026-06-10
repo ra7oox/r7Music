@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { SearchBar } from '@/components/search/SearchBar'
 import { TrackList } from '@/components/tracks/TrackList'
 import { AlbumGrid } from '@/components/albums/AlbumView'
 import { ArtistGrid } from '@/components/artists/ArtistView'
@@ -19,15 +18,9 @@ export const SearchPage = () => {
   ]
 
   return (
-    <div className="px-6 md:px-12 py-6 fade-in">
-      <div className="mx-auto mb-8">
-        <h1 className="page-heading text-brand-gradient font-display font-extrabold mb-4">Search</h1>
-        <SearchBar
-          value={query}
-          onChange={setQuery}
-          autoFocus
-          placeholder="Search tracks, artists, albums…"
-        />
+    <div className="page-container fade-in">
+      <div className="mx-auto mb-4">
+        <h1 className="page-heading text-brand-gradient font-display font-extrabold">Search</h1>
       </div>
 
       {!query && (

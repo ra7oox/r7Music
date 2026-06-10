@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import { Header } from '@/components/layout/Header'
 import { ArtistGrid } from '@/components/artists/ArtistView'
 import { getArtists } from '@/services/jamendoService'
 import { getTopArtists } from '@/services/lastfmService'
@@ -22,8 +21,7 @@ export const ArtistsPage = () => {
 
   return (
     <>
-      <Header title="Artists" />
-      <div className="px-6 md:px-12 py-6 space-y-10 fade-in">
+      <div className="page-container space-y-10 fade-in">
         {jamendoArtists.length > 0 && (
           <section>
             <div className="flex items-center gap-3 mb-6">

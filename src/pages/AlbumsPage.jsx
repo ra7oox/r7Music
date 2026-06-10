@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query'
-import { Header } from '@/components/layout/Header'
 import { AlbumGrid } from '@/components/albums/AlbumView'
 import { getAlbums } from '@/services/jamendoService'
 import { Disc3 } from 'lucide-react'
@@ -15,8 +14,7 @@ export const AlbumsPage = () => {
 
   return (
     <>
-      <Header title="Albums" />
-      <div className="px-6 md:px-12 py-6 fade-in">
+      <div className="page-container fade-in">
         <div className="flex items-center gap-3 mb-8">
           <div
             className="flex items-center justify-center rounded-xl"

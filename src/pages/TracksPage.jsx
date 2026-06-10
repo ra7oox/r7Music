@@ -1,4 +1,3 @@
-import { Header } from '@/components/layout/Header'
 import { TrackList } from '@/components/tracks/TrackList'
 import { useTracks } from '@/hooks/useTracks'
 import { Music2 } from 'lucide-react'
@@ -16,8 +15,7 @@ export const TracksPage = () => {
 
   return (
     <>
-      <Header title="Tracks" />
-      <div className="px-6 md:px-12 py-6 fade-in">
+      <div className="page-container fade-in">
         <div className="flex items-center gap-3 mb-8">
           <div
             className="flex items-center justify-center rounded-xl"

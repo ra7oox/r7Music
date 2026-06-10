@@ -44,41 +44,20 @@ export const Sidebar = () => {
     <aside
       className="glass-strong"
       style={{
-        position: 'sticky',
-        top: 0,
-        height: '100vh',
+        position: 'relative',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         padding: '28px 0',
-        borderTop: 'none',
-        borderLeft: 'none',
-        borderBottom: 'none',
-        borderRight: '1px solid rgba(255,255,255,0.06)',
+        borderRadius: '24px',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
         overflowY: 'auto',
         paddingBottom: 110,
         zIndex: 10,
+        boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
       }}
       aria-label="Main navigation"
     >
-      {/* Logo */}
-      <div className="flex items-center gap-3 px-6 mb-8">
-        <R7MusicLogo size={42} />
-        <div>
-          <span
-            className="inline-block font-bold leading-none tracking-tight text-brand-gradient"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.25rem',
-            }}
-          >
-            r7Music
-          </span>
-          <span className="block mt-1" style={{ fontSize: '0.65rem', color: 'var(--color-text-secondary)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-            Free Streaming
-          </span>
-        </div>
-      </div>
-
       {/* Nav */}
       <nav className="flex-1 px-3">
         <p className="px-4 mb-3" style={{ fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>

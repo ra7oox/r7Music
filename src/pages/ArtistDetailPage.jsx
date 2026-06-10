@@ -1,10 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getArtistById, getArtistTracks, getAlbums } from '@/services/jamendoService'
-import { ArtistGrid } from '@/components/artists/ArtistView'
+import { getArtistInfo } from '@/services/lastfmService'
 import { TrackList } from '@/components/tracks/TrackList'
 import { AlbumGrid } from '@/components/albums/AlbumView'
-import { Header } from '@/components/layout/Header'
 import { TrackListSkeleton } from '@/components/ui/Skeleton'
 import { useLastfmArtistInfo, useLastfmTopTracks, useLastfmTopAlbums } from '@/hooks/useLastfm'
 import { ArrowLeft, Users, Disc3, Globe, Music, ExternalLink, Info } from 'lucide-react'
@@ -48,7 +47,7 @@ export const ArtistDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="px-6 md:px-12 py-6 fade-in">
+      <div className="page-container fade-in">
         <TrackListSkeleton count={10} />
       </div>
     )
@@ -58,8 +57,7 @@ export const ArtistDetailPage = () => {
 
   return (
     <>
-      <Header title={artist?.name || lastfm?.name || 'Artist'} />
-      <div className="px-6 md:px-12 py-6 fade-in">
+      <div className="page-container fade-in">
         <button
           className="btn-icon mb-6"
           aria-label="Go back"

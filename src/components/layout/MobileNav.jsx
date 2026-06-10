@@ -15,7 +15,7 @@ export const MobileNav = () => {
 
   return (
     <nav
-      className="md:hidden safe-bottom"
+      className="flex md:hidden safe-bottom"
       aria-label="Mobile navigation"
       style={{
         position: 'fixed',
@@ -28,7 +28,6 @@ export const MobileNav = () => {
         backdropFilter: 'blur(32px)',
         WebkitBackdropFilter: 'blur(32px)',
         borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-        display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around',
         paddingLeft: 8,
