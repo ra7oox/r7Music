@@ -6,37 +6,28 @@ audio.preload = 'auto'
 let loadTimeout = null
 let playingTrackId = null
 
-// ── Audio Visualizer (AnalyserNode) ──────────────────────────────────────────
-let analyserNode = null
-let audioCtx = null
-
-try {
-  const AudioCtx = window.AudioContext || window.webkitAudioContext
-  audioCtx = new AudioCtx()
-  analyserNode = audioCtx.createAnalyser()
-  analyserNode.fftSize = 128
-  analyserNode.smoothingTimeConstant = 0.8
-  const srcNode = audioCtx.createMediaElementSource(audio)
-  srcNode.connect(analyserNode)
-  // Don't connect analyser → destination to avoid double-audio.
-  // Visualizer only reads, doesn't route to speakers.
-} catch {}
-
-// Resume AudioContext on first user gesture (browser policy)
-const resumeAudioCtx = () => {
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(() => {})
-  }
-  document.removeEventListener('pointerdown', resumeAudioCtx, true)
-  document.removeEventListener('keydown', resumeAudioCtx, true)
-}
-document.addEventListener('pointerdown', resumeAudioCtx, { once: true, capture: true })
-document.addEventListener('keydown', resumeAudioCtx, { once: true, capture: true })
-
+// ── Audio Visualizer (Simulated) ─────────────────────────────────────────────
 export const getFrequencyData = () => {
-  if (!analyserNode) return null
-  const data = new Uint8Array(analyserNode.frequencyBinCount)
-  analyserNode.getByteFrequencyData(data)
+  const state = usePlayerStore.getState()
+  const isPlaying = state?.isPlaying && !audio.paused
+  
+  const len = 64
+  const data = new Uint8Array(len)
+  if (!isPlaying) {
+    for (let i = 0; i < len; i++) {
+      data[i] = 10 + Math.floor(Math.random() * 8)
+    }
+    return data
+  }
+  
+  const time = Date.now() * 0.006
+  for (let i = 0; i < len; i++) {
+    const factor = Math.sin(time + i * 0.4) * 0.4 + Math.cos(time * 0.7 + i * 0.15) * 0.3 + 0.5
+    const noise = Math.random() * 0.25
+    const val = Math.max(0.1, Math.min(1.0, factor + noise))
+    const freqScale = 1.0 - (i / len) * 0.4
+    data[i] = Math.floor(val * freqScale * 255)
+  }
   return data
 }
 // ─────────────────────────────────────────────────────────────────────────────
